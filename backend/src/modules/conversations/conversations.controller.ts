@@ -104,4 +104,23 @@ export class ConversationsController {
       memberId,
     );
   }
+
+  @Post(':conversationId/members')
+  @HttpCode(HttpStatus.CREATED)
+  async addMembers(
+    @Param('conversationId', ParseIntPipe) conversationId: number,
+    @CurrentUser('user') user: User,
+    @Body() addMembersDto: AddMembersDto
+  ) {
+    return this.conversationsService.addMembers(conversationId, user.id, addMembersDto);
+  }
+
+  @Delete(':conversationId/member/:memberId')
+  async deleteMember(
+    @Param('conversationId', ParseIntPipe) conversationId: number,
+    @Param('memberId', ParseIntPipe) memberId: number,
+    @CurrentUser('user') user: User
+  ) {
+    return this.conversationsService.deleteMember(conversationId, user.id, memberId);
+  }
 }

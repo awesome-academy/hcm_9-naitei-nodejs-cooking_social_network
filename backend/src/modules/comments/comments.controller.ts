@@ -117,4 +117,37 @@ export class CommentsController {
   ) {
     return this.commentsService.unlikeComment(user.id, postId, commentId);
   }
+
+  @Get(':commentId/replies')
+  @OptionalAuth()
+  async getReplies(
+    @Param('postId', ParseIntPipe) postId: number,
+    @Param('commentId', ParseIntPipe) commentId: number,
+    @Query() filter: FilterCommentsDto,
+    @CurrentUser('user') user?: User,
+  ) {
+    return this.commentsService.getReplies(postId, commentId, filter, user);
+  }
+
+  @Post(':commentId/like')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async like(
+    @Param('postId', ParseIntPipe) postId: number,
+    @Param('commentId', ParseIntPipe) commentId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.commentsService.likeComment(user.id, postId, commentId);
+  }
+
+  @Delete(':commentId/like')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async unlike(
+    @Param('postId', ParseIntPipe) postId: number,
+    @Param('commentId', ParseIntPipe) commentId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.commentsService.unlikeComment(user.id, postId, commentId);
+  }
 }

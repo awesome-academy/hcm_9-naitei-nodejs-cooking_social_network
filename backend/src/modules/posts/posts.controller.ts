@@ -120,4 +120,83 @@ export class PostsController {
   ) {
     return this.postsService.unsavePost(user.id, postId);
   }
+
+  @Get()
+  @OptionalAuth()
+  async getAll(
+    @Query() filter: FilterPostsDto,
+    @CurrentUser('user') user?: User,
+  ) {
+    return this.postsService.getPosts(filter, user);
+  }
+
+  @Put(':postId')
+  @UseGuards(AuthGuard('jwt'))
+  async update(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+    @Body('post') updatePostDto: UpdatePostDto,
+  ) {
+    return this.postsService.updatePost(user.id, postId, updatePostDto);
+  }
+
+  @Delete(':postId')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async delete(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.postsService.deletePost(user.id, postId);
+  }
+
+  @Post(':postId/like')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async like(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.postsService.likePost(user.id, postId);
+  }
+
+  @Delete(':postId/unlike')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async unlike(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.postsService.unlikePost(user.id, postId);
+  }
+
+  @Post(':postId/share')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async share(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.postsService.sharePost(user.id, postId);
+  }
+
+  @Post(':postId/save')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async save(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.postsService.savePost(user.id, postId);
+  }
+
+  @Delete(':postId/save')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(200)
+  async unsave(
+    @Param('postId', ParseIntPipe) postId: number,
+    @CurrentUser('user') user: User,
+  ) {
+    return this.postsService.unsavePost(user.id, postId);
+  }
 }

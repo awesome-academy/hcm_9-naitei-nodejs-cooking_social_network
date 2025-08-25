@@ -33,6 +33,7 @@ const generateUniqueId = () => `id_${Math.random().toString(36).substr(2, 9)}`;
 export default function EditRecipeForm() {
   const navigate = useNavigate();
   const { user } = useAuth();
+
   const { id } = useParams<{ id: string }>();
 
   const [recipeName, setRecipeName] = useState("");
