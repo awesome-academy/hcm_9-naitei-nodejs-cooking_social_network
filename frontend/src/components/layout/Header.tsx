@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
 import NotificationDropdown from "../sections/NotificationDropdown";
 import MessageDropdown from "../sections/MessageDropdown";
-import { Bookmark } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 
 type CategoryItem = {
@@ -43,16 +42,14 @@ const Header = () => {
     const path = location.pathname;
     if (path === "/") {
       setActive(0);
-    } else if (path.startsWith("/recipes")) {
+    } else if (path.startsWith("/")) {
       setActive(1);
-    } else if (path.startsWith("/explore")) {
+    } else if (path.startsWith("/community-recipes")) {
       setActive(2);
-    } else if (path.startsWith("/about")) {
-      setActive(3);
     } else if (path.startsWith("/support")) {
-      setActive(4);
+      setActive(3);
     } else if (path.startsWith("/search")) {
-      setActive(5);
+      setActive(4);
     } else setActive(-1);
   }, [location]);
 
@@ -95,7 +92,7 @@ const Header = () => {
         </a>
 
         <a
-          href="/explore"
+          href="/about"
           onClick={() => {
             setIsExploreOpen(false);
             setIsSearchOpen(false);
@@ -106,40 +103,25 @@ const Header = () => {
           }`}
         >
           <p className="font-semibold text-[17px] transform scale-y-[1.05]">
-            Khám phá
-          </p>
-        </a>
-
-        <a
-          href="/about"
-          onClick={() => {
-            setIsExploreOpen(false);
-            setIsSearchOpen(false);
-            setIsSupportOpen(false);
-          }}
-          className={`flex cursor-pointer relative items-center ${
-            active == 3 ? "text-[#FF6363]" : "text-[#211E2E]"
-          }`}
-        >
-          <p className="font-semibold text-[17px] transform scale-y-[1.05]">
             Về OSHISHA
           </p>
         </a>
 
-        <div
+        <a
+          href="/support"
           onClick={() => {
             setIsSupportOpen(!isSupportOpen);
             setIsSearchOpen(false);
             setIsExploreOpen(false);
           }}
           className={`flex cursor-pointer relative items-center ${
-            active == 4 ? "text-[#FF6363]" : "text-[#211E2E]"
+            active == 3 ? "text-[#FF6363]" : "text-[#211E2E]"
           }`}
         >
           <p className="font-semibold text-[17px] transform scale-y-[1.05]">
             Hỗ trợ
           </p>
-        </div>
+        </a>
       </div>
 
       <div ref={dropdownRef} className="flex items-center">
@@ -191,12 +173,6 @@ const Header = () => {
           <div>
             <MessageDropdown />
           </div>
-
-          <a href="/recipes/saved">
-            <div className="rounded-full p-2 hover:bg-gray-100 transition-colors duration-200 cursor-pointer border border-gray-600 hover:border-gray-700">
-              <Bookmark className="w-6 h-6 text-gray-600" strokeWidth={1.5} />
-            </div>
-          </a>
 
           <div
             className="relative cursor-pointer"
